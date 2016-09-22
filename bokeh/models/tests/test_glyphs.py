@@ -45,10 +45,16 @@ from bokeh.core.enums import (
     NamedColor as Color, NamedIcon)
 
 # fool flake8
-(LineJoin, LineDash, LineCap, FontStyle, TextAlign, TextBaseline, Direction,
- Units, AngleUnits, DatetimeUnits, Dimension, Anchor, Location, LegendLocation,
- DashPattern, ButtonType, MapType, Color, NamedIcon)
-
+(   LineJoin, LineDash, LineCap,
+    FontStyle,
+    TextAlign, TextBaseline,
+    Direction,
+    Units, AngleUnits, DatetimeUnits,
+    Dimension,
+    Anchor, Location, LegendLocation,
+    DashPattern,
+    ButtonType, MapType,
+    Color, NamedIcon)
 
 def test_AnnularWedge():
     glyph = AnnularWedge()
@@ -59,9 +65,9 @@ def test_AnnularWedge():
     assert glyph.start_angle is None
     assert glyph.end_angle is None
     assert glyph.direction == "anticlock"
-    check_fill_properties(glyph)
-    check_line_properties(glyph)
-    check_properties_existence(glyph, [
+    yield check_fill_properties, glyph
+    yield check_line_properties, glyph
+    yield (check_properties_existence, glyph, [
         "x",
         "y",
         "inner_radius",
@@ -75,16 +81,15 @@ def test_AnnularWedge():
         "direction",
     ], FILL, LINE, GLYPH)
 
-
 def test_Annulus():
     glyph = Annulus()
     assert glyph.x is None
     assert glyph.y is None
     assert glyph.inner_radius is None
     assert glyph.outer_radius is None
-    check_fill_properties(glyph)
-    check_line_properties(glyph)
-    check_properties_existence(glyph, [
+    yield check_fill_properties, glyph
+    yield check_line_properties, glyph
+    yield (check_properties_existence, glyph, [
         "x",
         "y",
         "inner_radius",
@@ -92,7 +97,6 @@ def test_Annulus():
         "outer_radius",
         "outer_radius_units",
     ], FILL, LINE, GLYPH)
-
 
 def test_Arc():
     glyph = Arc()
@@ -102,8 +106,8 @@ def test_Arc():
     assert glyph.start_angle is None
     assert glyph.end_angle is None
     assert glyph.direction == "anticlock"
-    check_line_properties(glyph)
-    check_properties_existence(glyph, [
+    yield check_line_properties, glyph
+    yield (check_properties_existence, glyph, [
         "x",
         "y",
         "radius",
@@ -115,7 +119,6 @@ def test_Arc():
         "direction",
     ], LINE, GLYPH)
 
-
 def test_Bezier():
     glyph = Bezier()
     assert glyph.x0 is None
@@ -126,8 +129,8 @@ def test_Bezier():
     assert glyph.cy0 is None
     assert glyph.cx1 is None
     assert glyph.cy1 is None
-    check_line_properties(glyph)
-    check_properties_existence(glyph, [
+    yield check_line_properties, glyph
+    yield (check_properties_existence, glyph, [
         "x0",
         "y0",
         "x1",
@@ -138,22 +141,20 @@ def test_Bezier():
         "cy1",
     ], LINE, GLYPH)
 
-
 def test_HBar():
     glyph = HBar()
     assert glyph.y is None
     assert glyph.height is None
     assert glyph.left == 0
     assert glyph.right is None
-    check_fill_properties(glyph)
-    check_line_properties(glyph)
-    check_properties_existence(glyph, [
+    yield check_fill_properties, glyph
+    yield check_line_properties, glyph
+    yield (check_properties_existence, glyph, [
         "y",
         "height",
         "left",
         "right",
     ], FILL, LINE, GLYPH)
-
 
 def test_Image():
     glyph = Image()
@@ -162,8 +163,8 @@ def test_Image():
     assert glyph.y is None
     assert glyph.dw is None
     assert glyph.dh is None
-    assert glyph.dilate is False
-    check_properties_existence(glyph, [
+    assert glyph.dilate == False
+    yield (check_properties_existence, glyph, [
         "image",
         "x",
         "y",
@@ -175,7 +176,6 @@ def test_Image():
         "color_mapper",
     ], GLYPH)
 
-
 def test_ImageRGBA():
     glyph = ImageRGBA()
     assert glyph.image is None
@@ -183,10 +183,10 @@ def test_ImageRGBA():
     assert glyph.y is None
     assert glyph.dw is None
     assert glyph.dh is None
-    assert glyph.rows is None
-    assert glyph.cols is None
-    assert glyph.dilate is False
-    check_properties_existence(glyph, [
+    assert glyph.rows == None
+    assert glyph.cols == None
+    assert glyph.dilate == False
+    yield (check_properties_existence, glyph, [
         "image",
         "x",
         "y",
@@ -199,7 +199,6 @@ def test_ImageRGBA():
         "dilate",
     ], GLYPH)
 
-
 def test_ImageURL():
     glyph = ImageURL()
     assert glyph.url is None
@@ -208,12 +207,12 @@ def test_ImageURL():
     assert glyph.w is None
     assert glyph.h is None
     assert glyph.angle == 0
-    assert glyph.dilate is False
+    assert glyph.dilate == False
     assert glyph.anchor == Anchor.top_left
     assert glyph.retry_attempts == 0
     assert glyph.retry_timeout == 0
     assert glyph.global_alpha == 1.0
-    check_properties_existence(glyph, [
+    yield (check_properties_existence, glyph, [
         "url",
         "x",
         "y",
@@ -230,28 +229,25 @@ def test_ImageURL():
         "global_alpha",
     ], GLYPH)
 
-
 def test_Line():
     glyph = Line()
     assert glyph.x is None
     assert glyph.y is None
-    check_line_properties(glyph)
-    check_properties_existence(glyph, [
+    yield check_line_properties, glyph
+    yield (check_properties_existence, glyph, [
         "x",
         "y",
     ], LINE, GLYPH)
-
 
 def test_MultiLine():
     glyph = MultiLine()
     assert glyph.xs is None
     assert glyph.ys is None
-    check_line_properties(glyph)
-    check_properties_existence(glyph, [
+    yield check_line_properties, glyph
+    yield (check_properties_existence, glyph, [
         "xs",
         "ys",
     ], LINE, GLYPH)
-
 
 def test_Oval():
     glyph = Oval()
@@ -260,9 +256,9 @@ def test_Oval():
     assert glyph.width is None
     assert glyph.height is None
     assert glyph.angle == 0
-    check_fill_properties(glyph)
-    check_line_properties(glyph)
-    check_properties_existence(glyph, [
+    yield check_fill_properties, glyph
+    yield check_line_properties, glyph
+    yield (check_properties_existence, glyph, [
         "x",
         "y",
         "width",
@@ -273,30 +269,27 @@ def test_Oval():
         "angle_units",
     ], FILL, LINE, GLYPH)
 
-
 def test_Patch():
     glyph = Patch()
     assert glyph.x is None
     assert glyph.y is None
-    check_fill_properties(glyph)
-    check_line_properties(glyph)
-    check_properties_existence(glyph, [
+    yield check_fill_properties, glyph
+    yield check_line_properties, glyph
+    yield (check_properties_existence, glyph, [
         "x",
         "y",
     ], FILL, LINE, GLYPH)
-
 
 def test_Patches():
     glyph = Patches()
     assert glyph.xs is None
     assert glyph.ys is None
-    check_fill_properties(glyph)
-    check_line_properties(glyph)
-    check_properties_existence(glyph, [
+    yield check_fill_properties, glyph
+    yield check_line_properties, glyph
+    yield (check_properties_existence, glyph, [
         "xs",
         "ys",
     ], FILL, LINE, GLYPH)
-
 
 def test_Quad():
     glyph = Quad()
@@ -304,15 +297,14 @@ def test_Quad():
     assert glyph.right is None
     assert glyph.bottom is None
     assert glyph.top is None
-    check_fill_properties(glyph)
-    check_line_properties(glyph)
-    check_properties_existence(glyph, [
+    yield check_fill_properties, glyph
+    yield check_line_properties, glyph
+    yield (check_properties_existence, glyph, [
         "left",
         "right",
         "bottom",
         "top",
     ], FILL, LINE, GLYPH)
-
 
 def test_Quadratic():
     glyph = Quadratic()
@@ -322,8 +314,8 @@ def test_Quadratic():
     assert glyph.y1 is None
     assert glyph.cx is None
     assert glyph.cy is None
-    check_line_properties(glyph)
-    check_properties_existence(glyph, [
+    yield check_line_properties, glyph
+    yield (check_properties_existence, glyph, [
         "x0",
         "y0",
         "x1",
@@ -332,15 +324,14 @@ def test_Quadratic():
         "cy",
     ], LINE, GLYPH)
 
-
 def test_Ray():
     glyph = Ray()
     assert glyph.x is None
     assert glyph.y is None
     assert glyph.angle is None
     assert glyph.length is None
-    check_line_properties(glyph)
-    check_properties_existence(glyph, [
+    yield check_line_properties, glyph
+    yield (check_properties_existence, glyph, [
         "x",
         "y",
         "angle",
@@ -349,7 +340,6 @@ def test_Ray():
         "length_units",
     ], LINE, GLYPH)
 
-
 def test_Rect():
     glyph = Rect()
     assert glyph.x is None
@@ -357,10 +347,10 @@ def test_Rect():
     assert glyph.width is None
     assert glyph.height is None
     assert glyph.angle == 0
-    assert glyph.dilate is False
-    check_fill_properties(glyph)
-    check_line_properties(glyph)
-    check_properties_existence(glyph, [
+    assert glyph.dilate == False
+    yield check_fill_properties, glyph
+    yield check_line_properties, glyph
+    yield (check_properties_existence, glyph, [
         "x",
         "y",
         "width",
@@ -372,21 +362,19 @@ def test_Rect():
         "dilate",
     ], FILL, LINE, GLYPH)
 
-
 def test_Segment():
     glyph = Segment()
     assert glyph.x0 is None
     assert glyph.y0 is None
     assert glyph.x1 is None
     assert glyph.y1 is None
-    check_line_properties(glyph)
-    check_properties_existence(glyph, [
+    yield check_line_properties, glyph
+    yield (check_properties_existence, glyph, [
         "x0",
         "y0",
         "x1",
         "y1"
     ], LINE, GLYPH)
-
 
 def test_Text():
     glyph = Text()
@@ -394,8 +382,8 @@ def test_Text():
     assert glyph.y is None
     assert glyph.text == "text"
     assert glyph.angle == 0
-    check_text_properties(glyph)
-    check_properties_existence(glyph, [
+    yield check_text_properties, glyph
+    yield (check_properties_existence, glyph, [
         "x",
         "y",
         "text",
@@ -405,22 +393,20 @@ def test_Text():
         "y_offset"
     ], TEXT, GLYPH)
 
-
 def test_VBar():
     glyph = VBar()
     assert glyph.x is None
     assert glyph.width is None
     assert glyph.top is None
     assert glyph.bottom == 0
-    check_fill_properties(glyph)
-    check_line_properties(glyph)
-    check_properties_existence(glyph, [
+    yield check_fill_properties, glyph
+    yield check_line_properties, glyph
+    yield (check_properties_existence, glyph, [
         "x",
         "width",
         "top",
         "bottom",
     ], FILL, LINE, GLYPH)
-
 
 def test_Wedge():
     glyph = Wedge()
@@ -430,9 +416,9 @@ def test_Wedge():
     assert glyph.start_angle is None
     assert glyph.end_angle is None
     assert glyph.direction == "anticlock"
-    check_fill_properties(glyph)
-    check_line_properties(glyph)
-    check_properties_existence(glyph, [
+    yield check_fill_properties, glyph
+    yield check_line_properties, glyph
+    yield (check_properties_existence, glyph, [
         "x",
         "y",
         "radius",
@@ -444,111 +430,98 @@ def test_Wedge():
         "direction",
     ], FILL, LINE, GLYPH)
 
-
 def test_Asterisk():
     marker = Asterisk()
-    check_marker_properties(marker)
-    check_fill_properties(marker)
-    check_line_properties(marker)
-    check_properties_existence(marker, MARKER, FILL, LINE, GLYPH)
-
+    yield check_marker_properties, marker
+    yield check_fill_properties, marker
+    yield check_line_properties, marker
+    yield check_properties_existence, marker, MARKER, FILL, LINE, GLYPH
 
 def test_Circle():
     marker = Circle()
-    check_marker_properties(marker)
-    assert marker.radius is None
-    check_fill_properties(marker)
-    check_line_properties(marker)
-    check_properties_existence(marker, [
+    yield check_marker_properties, marker
+    assert marker.radius == None
+    yield check_fill_properties, marker
+    yield check_line_properties, marker
+    yield (check_properties_existence, marker, [
         "radius",
         "radius_units",
         "radius_dimension",
     ], MARKER, FILL, LINE, GLYPH)
 
-
 def test_CircleCross():
     marker = CircleCross()
-    check_marker_properties(marker)
-    check_fill_properties(marker)
-    check_line_properties(marker)
-    check_properties_existence(marker, MARKER, FILL, LINE, GLYPH)
-
+    yield check_marker_properties, marker
+    yield check_fill_properties, marker
+    yield check_line_properties, marker
+    yield check_properties_existence, marker, MARKER, FILL, LINE, GLYPH
 
 def test_CircleX():
     marker = CircleX()
-    check_marker_properties(marker)
-    check_fill_properties(marker)
-    check_line_properties(marker)
-    check_properties_existence(marker, MARKER, FILL, LINE, GLYPH)
-
+    yield check_marker_properties, marker
+    yield check_fill_properties, marker
+    yield check_line_properties, marker
+    yield check_properties_existence, marker, MARKER, FILL, LINE, GLYPH
 
 def test_Cross():
     marker = Cross()
-    check_marker_properties(marker)
-    check_fill_properties(marker)
-    check_line_properties(marker)
-    check_properties_existence(marker, MARKER, FILL, LINE, GLYPH)
-
+    yield check_marker_properties, marker
+    yield check_fill_properties, marker
+    yield check_line_properties, marker
+    yield check_properties_existence, marker, MARKER, FILL, LINE, GLYPH
 
 def test_Diamond():
     marker = Diamond()
-    check_marker_properties(marker)
-    check_fill_properties(marker)
-    check_line_properties(marker)
-    check_properties_existence(marker, MARKER, FILL, LINE, GLYPH)
-
+    yield check_marker_properties, marker
+    yield check_fill_properties, marker
+    yield check_line_properties, marker
+    yield check_properties_existence, marker, MARKER, FILL, LINE, GLYPH
 
 def test_DiamondCross():
     marker = DiamondCross()
-    check_marker_properties(marker)
-    check_fill_properties(marker)
-    check_line_properties(marker)
-    check_properties_existence(marker, MARKER, FILL, LINE, GLYPH)
-
+    yield check_marker_properties, marker
+    yield check_fill_properties, marker
+    yield check_line_properties, marker
+    yield check_properties_existence, marker, MARKER, FILL, LINE, GLYPH
 
 def test_InvertedTriangle():
     marker = InvertedTriangle()
-    check_marker_properties(marker)
-    check_fill_properties(marker)
-    check_line_properties(marker)
-    check_properties_existence(marker, MARKER, FILL, LINE, GLYPH)
-
+    yield check_marker_properties, marker
+    yield check_fill_properties, marker
+    yield check_line_properties, marker
+    yield check_properties_existence, marker, MARKER, FILL, LINE, GLYPH
 
 def test_Square():
     marker = Square()
-    check_marker_properties(marker)
-    check_fill_properties(marker)
-    check_line_properties(marker)
-    check_properties_existence(marker, MARKER, FILL, LINE, GLYPH)
-
+    yield check_marker_properties, marker
+    yield check_fill_properties, marker
+    yield check_line_properties, marker
+    yield check_properties_existence, marker, MARKER, FILL, LINE, GLYPH
 
 def test_SquareCross():
     marker = SquareCross()
-    check_marker_properties(marker)
-    check_fill_properties(marker)
-    check_line_properties(marker)
-    check_properties_existence(marker, MARKER, FILL, LINE, GLYPH)
-
+    yield check_marker_properties, marker
+    yield check_fill_properties, marker
+    yield check_line_properties, marker
+    yield check_properties_existence, marker, MARKER, FILL, LINE, GLYPH
 
 def test_SquareX():
     marker = SquareX()
-    check_marker_properties(marker)
-    check_fill_properties(marker)
-    check_line_properties(marker)
-    check_properties_existence(marker, MARKER, FILL, LINE, GLYPH)
-
+    yield check_marker_properties, marker
+    yield check_fill_properties, marker
+    yield check_line_properties, marker
+    yield check_properties_existence, marker, MARKER, FILL, LINE, GLYPH
 
 def test_Triangle():
     marker = Triangle()
-    check_marker_properties(marker)
-    check_fill_properties(marker)
-    check_line_properties(marker)
-    check_properties_existence(marker, MARKER, FILL, LINE, GLYPH)
-
+    yield check_marker_properties, marker
+    yield check_fill_properties, marker
+    yield check_line_properties, marker
+    yield check_properties_existence, marker, MARKER, FILL, LINE, GLYPH
 
 def test_X():
     marker = X()
-    check_marker_properties(marker)
-    check_fill_properties(marker)
-    check_line_properties(marker)
-    check_properties_existence(marker, MARKER, FILL, LINE, GLYPH)
+    yield check_marker_properties, marker
+    yield check_fill_properties, marker
+    yield check_line_properties, marker
+    yield check_properties_existence, marker, MARKER, FILL, LINE, GLYPH

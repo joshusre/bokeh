@@ -11,7 +11,7 @@ from .utils.property_utils import (
 
 def test_LinearColorMapper():
     mapper = LinearColorMapper()
-    check_properties_existence(mapper, [
+    yield (check_properties_existence, mapper, [
         "palette",
         "low",
         "high",
@@ -23,7 +23,7 @@ def test_LinearColorMapper():
 
 def test_LogColorMapper():
     mapper = LogColorMapper()
-    check_properties_existence(mapper, [
+    yield (check_properties_existence, mapper, [
         "palette",
         "low",
         "high",
